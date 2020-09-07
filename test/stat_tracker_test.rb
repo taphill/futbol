@@ -122,11 +122,11 @@ class StatTrackerTest < Minitest::Test
     }
     stat_tracker = StatTracker.from_csv(locations)
     expected = {
-      team_id: ["4"],
-      franchiseId: ["16"],
-      teamName: ["Chicago Fire"],
-      abbreviation: ["CHI"],
-      link: ["/api/v1/teams/4"]
+      team_id: "4",
+      franchiseId: "16",
+      teamName: "Chicago Fire",
+      abbreviation: "CHI",
+      link: "/api/v1/teams/4"
     }
     assert_equal expected, stat_tracker.team_info("4")
   end
