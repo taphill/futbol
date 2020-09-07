@@ -67,7 +67,7 @@ class StatTracker
 
 #------------TeamStatistics
 
-  def team_info
+  def team_info(team_id)
     result = { }
     teams.each do |team|
       (result[:team_id] ||= []) << team['team_id']
@@ -79,6 +79,8 @@ class StatTracker
     result
   end
 
+
+
 #---------------------------
   private
 
@@ -88,5 +90,5 @@ class StatTracker
       (coach_hash[gt.head_coach] ||= []) << gt.result
     end
     coach_hash
-  end  
+  end
 end
