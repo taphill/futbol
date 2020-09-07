@@ -72,8 +72,8 @@ class StatTracker
     teams.each do |team|
       if team_id == team['team_id']
         result[:team_id] = team['team_id']
-        result[:franchiseId] = team['franchiseId']
-        result[:teamName] = team['teamName']
+        result[:franchise_id] = team['franchiseId']
+        result[:team_name] = team['teamName']
         result[:abbreviation] = team['abbreviation']
         result[:link] = team['link']
       end
@@ -81,7 +81,19 @@ class StatTracker
     result
   end
 
+  def best_season(team_id)
+    games_in_season = games_by_team(team_id).group_by do |season|
+    require "pry"; binding.pry
+    # games_in_season(team_id).each do |season, games|
+    # end
+  end
 
+  def games_by_team(team_id)
+    games.find_all do |game|
+      game['home_team_id'] == team_id ||
+      game['away_team_id'] == team_id
+    end
+  end
 
 #---------------------------
   private

@@ -123,8 +123,8 @@ class StatTrackerTest < Minitest::Test
     stat_tracker = StatTracker.from_csv(locations)
     expected = {
       team_id: "4",
-      franchiseId: "16",
-      teamName: "Chicago Fire",
+      franchise_id: "16",
+      team_name: "Chicago Fire",
       abbreviation: "CHI",
       link: "/api/v1/teams/4"
     }
@@ -141,8 +141,8 @@ class StatTrackerTest < Minitest::Test
       game_teams: game_teams_path
     }
     stat_tracker = StatTracker.from_csv(locations)
-
+    require "pry"; binding.pry
     assert_equal "20132014", stat_tracker.best_season("6")
-  end 
+  end
 #----------------------------
 end
