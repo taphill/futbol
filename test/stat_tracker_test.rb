@@ -131,6 +131,18 @@ class StatTrackerTest < Minitest::Test
     assert_equal expected, stat_tracker.team_info("4")
   end
 
+  def test_it_can_find_teams_best_season
+    game_path = './data/games.csv'
+    team_path = './data/teams.csv'
+    game_teams_path = './data/game_teams.csv'
+    locations = {
+      games: game_path,
+      teams: team_path,
+      game_teams: game_teams_path
+    }
+    stat_tracker = StatTracker.from_csv(locations)
 
+    assert_equal "20132014", stat_tracker.best_season("6")
+  end 
 #----------------------------
 end
