@@ -34,8 +34,7 @@ class StatTrackerTest < Minitest::Test
 #   end
 #
 #
-# #---------GameStatisticsTests
-#
+#---------GameStatisticsTests
   def test_it_can_find_highest_total_score
     game_path = './data/games.csv'
     team_path = './data/teams.csv'
@@ -105,9 +104,8 @@ class StatTrackerTest < Minitest::Test
 
     assert_equal 0.20, stat_tracker.percentage_ties
   end
-#
-#---------------LeagueStatisticsTests
 
+#---------------LeagueStatisticsTests
   def test_it_can_count_of_teams
     game_path = './fixture/games_count_teams.csv'
     team_path = './fixture/teams.csv'
@@ -212,7 +210,8 @@ class StatTrackerTest < Minitest::Test
 
     assert_equal "Utah Royals FC", stat_tracker.lowest_scoring_home_team
   end
-#   #--------------SeasonStatisticsTests
+
+#--------------SeasonStatisticsTests
   def test_it_can_find_winningest_coach
     game_path = './fixture/games_dummy.csv'
     team_path = './fixture/teams_dummy.csv'
@@ -227,7 +226,7 @@ class StatTrackerTest < Minitest::Test
 
     assert_equal "Claude Julien", stat_tracker.winningest_coach('20122013')
   end
-#
+
   def test_it_can_find_worst_coach
     game_path = './fixture/games_dummy.csv'
     team_path = './fixture/teams_dummy.csv'
@@ -240,7 +239,6 @@ class StatTrackerTest < Minitest::Test
     stat_tracker = StatTracker.from_csv(locations)
     assert_equal "John Tortorella", stat_tracker.worst_coach('20122013')
   end
-
 
 #---------TeamStatisticsTests
   def test_it_can_get_team_info
@@ -262,5 +260,4 @@ class StatTrackerTest < Minitest::Test
     }
     assert_equal expected, stat_tracker.team_info
   end
-#----------------------------
 end
