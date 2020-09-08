@@ -105,6 +105,28 @@ class StatTrackerTest < Minitest::Test
 
     assert_equal 0.20, stat_tracker.percentage_ties
   end
+
+  def test_it_can_count_games_by_season
+    game_path = './data/games.csv'
+    team_path = './data/teams.csv'
+    game_teams_path = './data/game_teams.csv'
+    locations = {
+      games: game_path,
+      teams: team_path,
+      game_teams: game_teams_path
+    }
+    stat_tracker = StatTracker.from_csv(locations)
+
+    expected = {
+      "20122013"=>806,
+      "20162017"=>1317,
+      "20142015"=>1319,
+      "20152016"=>1321,
+      "20132014"=>1323,
+      "20172018"=>1355
+    }
+    assert_equal expected, @stat_tracker.count_of_games_by_season
+  end
 #
 #---------------LeagueStatisticsTests
 
