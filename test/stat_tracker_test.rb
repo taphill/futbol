@@ -108,8 +108,8 @@ class StatTrackerTest < Minitest::Test
 #---------------LeagueStatisticsTests
   def test_it_can_count_of_teams
     game_path = './fixture/games_count_teams.csv'
-    team_path = './fixture/teams.csv'
-    game_teams_path = './data/game_teams.csv'
+    team_path = './data/teams.csv'
+    game_teams_path = './fixture/games_teams_nil.csv'
 
     locations = {
       games: game_path,
@@ -124,7 +124,7 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_find_the_best_offense
     game_path = './data/games.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './data/game_teams.csv'
+    game_teams_path = './fixture/games_teams_nil.csv'
 
     locations = {
       games: game_path,
@@ -139,7 +139,7 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_find_the_worst_offense
     game_path = './data/games.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './data/game_teams.csv'
+    game_teams_path = './fixture/games_teams_nil.csv'
 
     locations = {
       games: game_path,
@@ -154,7 +154,7 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_find_the_highest_scoring_visitor
     game_path = './data/games.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './data/game_teams.csv'
+    game_teams_path = './fixture/games_teams_nil.csv'
 
     locations = {
       games: game_path,
@@ -169,7 +169,7 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_find_the_highest_scoring_home_team
     game_path = './data/games.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './data/game_teams.csv'
+    game_teams_path = './fixture/games_teams_nil.csv'
 
     locations = {
       games: game_path,
@@ -184,7 +184,7 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_find_the_lowest_scoring_visitor
     game_path = './data/games.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './data/game_teams.csv'
+    game_teams_path = './fixture/games_teams_nil.csv'
 
     locations = {
       games: game_path,
@@ -199,7 +199,7 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_find_the_lowest_scoring_home_team
     game_path = './data/games.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './data/game_teams.csv'
+    game_teams_path = './fixture/games_teams_nil.csv'
 
     locations = {
       games: game_path,
