@@ -179,12 +179,19 @@ class StatTracker
   end
 
   def most_tackles(season)
-
+    game_team_results_by_season(season)
+    tackles_per_team_start
+    add_tackles
+    determine_team_with_most_tackles
   end
 
   def fewest_tackles(season)
-
+    game_team_results_by_season(season)
+    tackles_per_team_start
+    add_tackles
+    determine_team_with_least_tackles
   end
+
 
 #------------TeamStatistics
   def team_info(team_id)
@@ -293,6 +300,35 @@ def game_team_results_by_season(season)
   def team_with_least_shot_to_goal_ratio
     result_id = @shots_per_team.min_by do |id, s_g|
       s_g[:goals].to_f / s_g[:shots]
+    end[0]
+    find_team_by_team_id(result_id)
+  end
+
+  def tackles_per_team_start
+    @tackles_per_team = {}
+    @games_results_per_season.each do |team_result|
+      @tackles_per_team[team_result['team_id']] = 0
+    end
+    @tackles_per_team
+  end
+
+  def add_tackles
+    @games_results_per_season.each do |team_result|
+      @tackles_per_team[team_result['team_id']] += team_result['tackles'].to_i
+    end
+    @tackles_per_team
+  end
+
+  def determine_team_with_most_tackles
+    result_id = @tackles_per_team.max_by do |id, tackle_count|
+      tackle_count
+    end[0]
+    find_team_by_team_id(result_id)
+  end
+
+  def determine_team_with_least_tackles
+    result_id = @tackles_per_team.min_by do |id, tackle_count|
+      tackle_count
     end[0]
     find_team_by_team_id(result_id)
   end
