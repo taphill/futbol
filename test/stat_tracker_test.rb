@@ -42,6 +42,25 @@ class StatTrackerTest < Minitest::Test
     assert_equal '/api/v1/venues/null', stat_tracker.games[0]['venue_link']
   end
 
+  def test_it_can_read_csv_games_data
+    game_path = './fixture/games_nil.csv'
+    team_path = './fixture/teams_dummy.csv'
+    game_teams_path = './fixture/game_teams_nil.csv'
+
+    locations = {
+      games: game_path,
+      teams: team_path,
+      game_teams: game_teams_path
+    }
+    stat_tracker = StatTracker.from_csv(locations)
+
+    assert_equal '1', stat_tracker.teams[0]['team_id']
+    assert_equal '23', stat_tracker.teams[0]['franchiseId']
+    assert_equal 'Atlanta United', stat_tracker.teams[0]['teamName']
+    assert_equal 'ATL', stat_tracker.teams[0]['abbreviation']
+    assert_equal 'Mercedes-Benz Stadium', stat_tracker.teams[0]['Stadium']
+    assert_equal '/api/v1/teams/1', stat_tracker.teams[0]['link']
+  end
 
 #---------GameStatisticsTests
   def test_it_can_find_highest_total_score
