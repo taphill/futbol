@@ -81,6 +81,46 @@ class StatTracker
   end
 
   def best_season(team_id)
+    unique_game_info(team_id)
+    average_of_wins_by_season(team_id).keys.max_by do |season|
+      average_of_wins_by_season(team_id)[season][:average]
+    end
+  end
+
+  def worst_season(team_id)
+    unique_game_info(team_id)
+    average_of_wins_by_season(team_id).keys.min_by do |season|
+      average_of_wins_by_season(team_id)[season][:average]
+    end
+  end
+
+#---------------------------
+  private
+
+  def coach_list_wins_losses
+    coach_hash = Hash.new
+    game_teams.each do |gt|
+      (coach_hash[gt.head_coach] ||= []) << gt.result
+    end
+    coach_hash
+  end
+end
+
+#----------TeamStatsHelpers
+def average_of_wins_by_season(team_id)
+  counts_by_season = { }
+  unique_game_info(team_id).each do |season, games|
+    counts_by_season[season] = { }
+    counts_by_season[season][:total] = games.length
+    counts_by_season[season][:wins] = games.select do |game|
+      game['result'] == "WIN"
+    end.length
+    counts_by_season[season][:average] = (counts_by_season[season][:wins].to_f / counts_by_season[season][:total]).round(2)
+  end
+  counts_by_season
+end
+
+  def unique_game_info(team_id)
     results = game_info_by_team(team_id)
     results_by_season = { }
     team_games_by_season(games_by_team(team_id)).each do |season, games|
@@ -91,18 +131,7 @@ class StatTracker
         end
       end
     end
-    counts_by_season = { }
-    results_by_season.each do |season, games|
-      counts_by_season[season] = { }
-      counts_by_season[season][:total] = games.length
-      counts_by_season[season][:wins] = games.select do |game|
-        game['result'] == "WIN"
-      end.length
-      counts_by_season[season][:average] = (counts_by_season[season][:wins].to_f / counts_by_season[season][:total]).round(2)
-    end
-    counts_by_season.keys.max_by do |season|
-      counts_by_season[season][:average]
-    end
+    results_by_season
   end
 
   def team_games_by_season(all_games = games)
@@ -129,15 +158,3 @@ class StatTracker
       game_team['team_id'] == team_id
     end
   end
-
-#---------------------------
-  private
-
-  def coach_list_wins_losses
-    coach_hash = Hash.new
-    game_teams.each do |gt|
-      (coach_hash[gt.head_coach] ||= []) << gt.result
-    end
-    coach_hash
-  end
-end
