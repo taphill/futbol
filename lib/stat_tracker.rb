@@ -50,11 +50,9 @@ class StatTracker
   end
 
   def count_of_games_by_season
-    # require "pry"; binding.pry
     games_by_season_index = {}
     games_by_season.each do |season, games|
       games_by_season_index[season] = games.length
-      # require "pry"; binding.pry
     end
     games_by_season_index
   end
@@ -71,14 +69,17 @@ class StatTracker
     result
   end
 
-  #   def game_team_results_by_season(season)
-  #     games_of_season = games.find_all do |game|
-  #       game['season'] == season
-  #     end
-  #     game_ids_in_season = games_of_season.map do |game|
-  #       game['game_id']
-  #     end
-  #   end
+  def average_goals_per_game
+    total_number_of_goals / total_number_of_games
+  end
+
+  def total_number_of_goals
+    
+  end
+
+  def total_number_of_games
+
+  end
 #
 #------------LeagueStatistics
   def count_of_teams

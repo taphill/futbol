@@ -127,6 +127,43 @@ class StatTrackerTest < Minitest::Test
     }
     assert_equal expected, stat_tracker.count_of_games_by_season
   end
+
+  def test_it_knows_average_goals_per_game
+    game_path = './data/games.csv'
+    team_path = './data/teams.csv'
+    game_teams_path = './data/game_teams.csv'
+    locations = {
+      games: game_path,
+      teams: team_path,
+      game_teams: game_teams_path
+    }
+    stat_tracker = StatTracker.from_csv(locations)
+
+    assert_equal 4.22, stat_tracker.average_goals_per_game
+  end
+
+  def test_it_knows_average_goals_by_season
+    skip
+    game_path = './data/games.csv'
+    team_path = './data/teams.csv'
+    game_teams_path = './data/game_teams.csv'
+    locations = {
+      games: game_path,
+      teams: team_path,
+      game_teams: game_teams_path
+    }
+    stat_tracker = StatTracker.from_csv(locations)
+
+    expected = {
+    "20122013"=>4.12,
+    "20162017"=>4.23,
+    "20142015"=>4.14,
+    "20152016"=>4.16,
+    "20132014"=>4.19,
+    "20172018"=>4.44
+  }
+    assert_equal expected, stat_tracker.average_goals_by_season
+  end
 #
 #---------------LeagueStatisticsTests
 
