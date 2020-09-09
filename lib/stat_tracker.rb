@@ -178,6 +178,14 @@ class StatTracker
     team_with_least_shot_to_goal_ratio
   end
 
+  def most_tackles(season)
+
+  end
+
+  def fewest_tackles(season)
+
+  end
+
 #------------TeamStatistics
   def team_info(team_id)
     result = { }
