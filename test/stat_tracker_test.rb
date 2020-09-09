@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'mocha/minitest'
 require './lib/stat_tracker'
 
 class StatTrackerTest < Minitest::Test
@@ -17,23 +18,31 @@ class StatTrackerTest < Minitest::Test
     assert_instance_of StatTracker, stat_tracker
   end
 
-#   def test_it_can_read_csv_data
-#     game_path = './data/games_dummy.csv'
-#     team_path = './data/teams_dummy.csv'
-#     game_teams_path = './data/game_teams_dummy.csv'
-#     locations = {
-#       games: game_path,
-#       teams: team_path,
-#       game_teams: game_teams_path
-#     }
-#     stat_tracker = StatTracker.from_csv(locations)
-#
-#     assert_equal "2012030221", stat_tracker.games[0].game_id
-#     # assert_equal [], stat_tracker.teams
-#     # assert_equal [], stat_tracker.game_teams
-#   end
-#
-#
+  def test_it_can_read_csv_games_data
+    game_path = './fixture/games_dummy.csv'
+    team_path = './fixture/teams_nil.csv'
+    game_teams_path = './fixture/game_teams_nil.csv'
+
+    locations = {
+      games: game_path,
+      teams: team_path,
+      game_teams: game_teams_path
+    }
+    stat_tracker = StatTracker.from_csv(locations)
+
+    assert_equal '2012030221', stat_tracker.games[0]['game_id']
+    assert_equal '20122013', stat_tracker.games[0]['season']
+    assert_equal 'Postseason', stat_tracker.games[0]['type']
+    assert_equal '5/16/13', stat_tracker.games[0]['date_time']
+    assert_equal '3', stat_tracker.games[0]['away_team_id']
+    assert_equal '6', stat_tracker.games[0]['home_team_id']
+    assert_equal '2', stat_tracker.games[0]['away_goals']
+    assert_equal '3', stat_tracker.games[0]['home_goals']
+    assert_equal 'Toyota Stadium', stat_tracker.games[0]['venue']
+    assert_equal '/api/v1/venues/null', stat_tracker.games[0]['venue_link']
+  end
+
+
 #---------GameStatisticsTests
   def test_it_can_find_highest_total_score
     game_path = './data/games.csv'
@@ -109,7 +118,7 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_count_of_teams
     game_path = './fixture/games_count_teams.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './fixture/games_teams_nil.csv'
+    game_teams_path = './fixture/game_teams_nil.csv'
 
     locations = {
       games: game_path,
@@ -124,7 +133,7 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_find_the_best_offense
     game_path = './data/games.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './fixture/games_teams_nil.csv'
+    game_teams_path = './fixture/game_teams_nil.csv'
 
     locations = {
       games: game_path,
@@ -139,7 +148,7 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_find_the_worst_offense
     game_path = './data/games.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './fixture/games_teams_nil.csv'
+    game_teams_path = './fixture/game_teams_nil.csv'
 
     locations = {
       games: game_path,
@@ -154,7 +163,7 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_find_the_highest_scoring_visitor
     game_path = './data/games.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './fixture/games_teams_nil.csv'
+    game_teams_path = './fixture/game_teams_nil.csv'
 
     locations = {
       games: game_path,
@@ -169,7 +178,7 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_find_the_highest_scoring_home_team
     game_path = './data/games.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './fixture/games_teams_nil.csv'
+    game_teams_path = './fixture/game_teams_nil.csv'
 
     locations = {
       games: game_path,
@@ -184,7 +193,7 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_find_the_lowest_scoring_visitor
     game_path = './data/games.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './fixture/games_teams_nil.csv'
+    game_teams_path = './fixture/game_teams_nil.csv'
 
     locations = {
       games: game_path,
@@ -199,7 +208,7 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_find_the_lowest_scoring_home_team
     game_path = './data/games.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './fixture/games_teams_nil.csv'
+    game_teams_path = './fixture/game_teams_nil.csv'
 
     locations = {
       games: game_path,
