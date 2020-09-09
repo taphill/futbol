@@ -5,9 +5,9 @@ require './lib/stat_tracker'
 
 class StatTrackerTest < Minitest::Test
   def test_it_exists
-    game_path = './fixture/games_dummy.csv'
-    team_path = './fixture/teams_dummy.csv'
-    game_teams_path = './fixture/game_teams_dummy.csv'
+    game_path = './fixture/games_empty.csv'
+    team_path = './fixture/teams_empty.csv'
+    game_teams_path = './fixture/game_teams_empty.csv'
     locations = {
       games: game_path,
       teams: team_path,
@@ -20,8 +20,8 @@ class StatTrackerTest < Minitest::Test
 
   def test_it_can_read_csv_games_data
     game_path = './fixture/games_dummy.csv'
-    team_path = './fixture/teams_nil.csv'
-    game_teams_path = './fixture/game_teams_nil.csv'
+    team_path = './fixture/teams_empty.csv'
+    game_teams_path = './fixture/game_teams_empty.csv'
 
     locations = {
       games: game_path,
@@ -43,9 +43,9 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_it_can_read_csv_teams_data
-    game_path = './fixture/games_nil.csv'
+    game_path = './fixture/games_empty.csv'
     team_path = './fixture/teams_dummy.csv'
-    game_teams_path = './fixture/game_teams_nil.csv'
+    game_teams_path = './fixture/game_teams_empty.csv'
 
     locations = {
       games: game_path,
@@ -63,8 +63,8 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_it_can_read_csv_game_teams_data
-    game_path = './fixture/games_nil.csv'
-    team_path = './fixture/teams_nil.csv'
+    game_path = './fixture/games_empty.csv'
+    team_path = './fixture/teams_empty.csv'
     game_teams_path = './fixture/game_teams_dummy.csv'
 
     locations = {
@@ -166,7 +166,7 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_count_of_teams
     game_path = './fixture/games_count_teams.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './fixture/game_teams_nil.csv'
+    game_teams_path = './fixture/game_teams_empty.csv'
 
     locations = {
       games: game_path,
@@ -179,9 +179,9 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_it_can_find_the_best_offense
-    game_path = './data/games.csv'
+    game_path = './fixture/game_league_stats_dummy.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './fixture/game_teams_nil.csv'
+    game_teams_path = './fixture/game_teams_empty.csv'
 
     locations = {
       games: game_path,
@@ -190,13 +190,13 @@ class StatTrackerTest < Minitest::Test
     }
     stat_tracker = StatTracker.from_csv(locations)
 
-    assert_equal "Reign FC", stat_tracker.best_offense
+    assert_equal "FC Dallas", stat_tracker.best_offense
   end
 
   def test_it_can_find_the_worst_offense
-    game_path = './data/games.csv'
+    game_path = './fixture/game_league_stats_dummy.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './fixture/game_teams_nil.csv'
+    game_teams_path = './fixture/game_teams_empty.csv'
 
     locations = {
       games: game_path,
@@ -205,13 +205,13 @@ class StatTrackerTest < Minitest::Test
     }
     stat_tracker = StatTracker.from_csv(locations)
 
-    assert_equal "Utah Royals FC", stat_tracker.worst_offense
+    assert_equal "Houston Dash", stat_tracker.worst_offense
   end
 
   def test_it_can_find_the_highest_scoring_visitor
-    game_path = './data/games.csv'
+    game_path = './fixture/game_league_stats_dummy.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './fixture/game_teams_nil.csv'
+    game_teams_path = './fixture/game_teams_empty.csv'
 
     locations = {
       games: game_path,
@@ -220,13 +220,13 @@ class StatTrackerTest < Minitest::Test
     }
     stat_tracker = StatTracker.from_csv(locations)
 
-    assert_equal "FC Dallas", stat_tracker.highest_scoring_visitor
+    assert_equal "Washington Spirit FC", stat_tracker.highest_scoring_visitor
   end
 
   def test_it_can_find_the_highest_scoring_home_team
-    game_path = './data/games.csv'
+    game_path = './fixture/game_league_stats_dummy.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './fixture/game_teams_nil.csv'
+    game_teams_path = './fixture/game_teams_empty.csv'
 
     locations = {
       games: game_path,
@@ -235,13 +235,13 @@ class StatTrackerTest < Minitest::Test
     }
     stat_tracker = StatTracker.from_csv(locations)
 
-    assert_equal "Reign FC", stat_tracker.highest_scoring_home_team
+    assert_equal "FC Dallas", stat_tracker.highest_scoring_home_team
   end
 
   def test_it_can_find_the_lowest_scoring_visitor
-    game_path = './data/games.csv'
+    game_path = './fixture/game_league_stats_dummy.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './fixture/game_teams_nil.csv'
+    game_teams_path = './fixture/game_teams_empty.csv'
 
     locations = {
       games: game_path,
@@ -250,13 +250,13 @@ class StatTrackerTest < Minitest::Test
     }
     stat_tracker = StatTracker.from_csv(locations)
 
-    assert_equal "San Jose Earthquakes", stat_tracker.lowest_scoring_visitor
+    assert_equal "Toronto FC", stat_tracker.lowest_scoring_visitor
   end
 
   def test_it_can_find_the_lowest_scoring_home_team
-    game_path = './data/games.csv'
+    game_path = './fixture/game_league_stats_dummy.csv'
     team_path = './data/teams.csv'
-    game_teams_path = './fixture/game_teams_nil.csv'
+    game_teams_path = './fixture/game_teams_empty.csv'
 
     locations = {
       games: game_path,
@@ -265,7 +265,7 @@ class StatTrackerTest < Minitest::Test
     }
     stat_tracker = StatTracker.from_csv(locations)
 
-    assert_equal "Utah Royals FC", stat_tracker.lowest_scoring_home_team
+    assert_equal "New York City FC", stat_tracker.lowest_scoring_home_team
   end
 
 #--------------SeasonStatisticsTests
