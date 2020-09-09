@@ -277,7 +277,7 @@ class StatTrackerTest < Minitest::Test
       game_teams: game_teams_path
     }
     stat_tracker = StatTracker.from_csv(locations)
-    assert_equal XXXXXX, stat_tracker.most_tackles('20122013')
+    assert_equal "FC Dallas", stat_tracker.most_tackles('20122013')
   end
 
   def test_team_with_fewest_tackles
@@ -290,7 +290,7 @@ class StatTrackerTest < Minitest::Test
       game_teams: game_teams_path
     }
     stat_tracker = StatTracker.from_csv(locations)
-    assert_equal XXXXXX, stat_tracker.fewest_tackles('20122013')
+    assert_equal "Sporting Kansas City", stat_tracker.fewest_tackles('20122013')
   end
 
 
