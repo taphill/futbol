@@ -81,7 +81,6 @@ class StatTracker
     games.find_all do |game|
       game['away_goals'].to_i
     end
-    require "pry"; binding.pry
   end
 
   def total_number_of_games
