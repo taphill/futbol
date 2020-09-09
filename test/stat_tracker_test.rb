@@ -62,6 +62,35 @@ class StatTrackerTest < Minitest::Test
     assert_equal '/api/v1/teams/1', stat_tracker.teams[0]['link']
   end
 
+  def test_it_can_read_csv_game_teams_data
+    game_path = './fixture/games_nil.csv'
+    team_path = './fixture/teams_nil.csv'
+    game_teams_path = './fixture/game_teams_dummy.csv'
+
+    locations = {
+      games: game_path,
+      teams: team_path,
+      game_teams: game_teams_path
+    }
+    stat_tracker = StatTracker.from_csv(locations)
+
+    assert_equal '2012030221', stat_tracker.game_teams[0]['game_id']
+    assert_equal '3', stat_tracker.game_teams[0]['team_id']
+    assert_equal 'away', stat_tracker.game_teams[0]['HoA']
+    assert_equal 'LOSS', stat_tracker.game_teams[0]['result']
+    assert_equal 'OT', stat_tracker.game_teams[0]['settled_in']
+    assert_equal 'John Tortorella', stat_tracker.game_teams[0]['head_coach']
+    assert_equal '2', stat_tracker.game_teams[0]['goals']
+    assert_equal '8', stat_tracker.game_teams[0]['shots']
+    assert_equal '44', stat_tracker.game_teams[0]['tackles']
+    assert_equal '8', stat_tracker.game_teams[0]['pim']
+    assert_equal '3', stat_tracker.game_teams[0]['powerPlayOpportunities']
+    assert_equal '0', stat_tracker.game_teams[0]['powerPlayGoals']
+    assert_equal '44.8', stat_tracker.game_teams[0]['faceOffWinPercentage']
+    assert_equal '17', stat_tracker.game_teams[0]['giveaways']
+    assert_equal '7', stat_tracker.game_teams[0]['takeaways']
+  end
+
 #---------GameStatisticsTests
   def test_it_can_find_highest_total_score
     game_path = './data/games.csv'
