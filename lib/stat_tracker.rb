@@ -152,42 +152,42 @@ class StatTracker
 
   def winningest_coach(season)
     game_team_results_by_season(season)
-    coaches_records_start
+    initialize_coaches_records
     add_wins_losses
     determine_winningest_coach
   end
 
   def worst_coach(season)
     game_team_results_by_season(season)
-    coaches_records_start
+    initialize_coaches_records
     add_wins_losses
     determine_worst_coach
   end
 
   def most_accurate_team(season)
     game_team_results_by_season(season)
-    shots_and_goals_per_team_in_season_start
+    initialize_shots_and_goals_per_team
     add_shots_and_goals
-    team_with_best_shot_to_goal_ratio
+    determine_team_with_best_accuracy
   end
 
   def least_accurate_team(season)
     game_team_results_by_season(season)
-    shots_and_goals_per_team_in_season_start
+    initialize_shots_and_goals_per_team
     add_shots_and_goals
-    team_with_least_shot_to_goal_ratio
+    determine_team_with_worst_accuracy
   end
 
   def most_tackles(season)
     game_team_results_by_season(season)
-    tackles_per_team_start
+    initialize_tackles_per_team
     add_tackles
     determine_team_with_most_tackles
   end
 
   def fewest_tackles(season)
     game_team_results_by_season(season)
-    tackles_per_team_start
+    initialize_tackles_per_team
     add_tackles
     determine_team_with_least_tackles
   end
@@ -241,7 +241,7 @@ def game_team_results_by_season(season)
     end
   end
 
-  def coaches_records_start
+  def initialize_coaches_records
     @coach_record_hash = {}
     @games_results_per_season.each do |team_result|
       @coach_record_hash[team_result['head_coach']] = {wins: 0, losses: 0, ties:0}
@@ -274,7 +274,7 @@ def game_team_results_by_season(season)
     end[0]
   end
 
-  def shots_and_goals_per_team_in_season_start
+  def initialize_shots_and_goals_per_team
     @shots_per_team = {}
     @games_results_per_season.each do |team_result|
       @shots_per_team[team_result['team_id']] = {shots: 0, goals: 0}
@@ -290,21 +290,21 @@ def game_team_results_by_season(season)
     @shots_per_team
   end
 
-  def team_with_best_shot_to_goal_ratio
+  def determine_team_with_best_accuracy
     result_id = @shots_per_team.max_by do |id, s_g|
       s_g[:goals].to_f / s_g[:shots]
     end[0]
     find_team_by_team_id(result_id)
   end
 
-  def team_with_least_shot_to_goal_ratio
+  def determine_team_with_worst_accuracy
     result_id = @shots_per_team.min_by do |id, s_g|
       s_g[:goals].to_f / s_g[:shots]
     end[0]
     find_team_by_team_id(result_id)
   end
 
-  def tackles_per_team_start
+  def initialize_tackles_per_team
     @tackles_per_team = {}
     @games_results_per_season.each do |team_result|
       @tackles_per_team[team_result['team_id']] = 0
