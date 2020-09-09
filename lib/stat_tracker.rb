@@ -164,6 +164,19 @@ class StatTracker
     determine_worst_coach
   end
 
+  def most_accurate_team(season)
+    game_team_results_by_season(season)
+    shots_and_goals_per_team_in_season_start
+    add_shots_and_goals
+    team_with_best_shot_to_goal_ratio
+  end
+
+  def least_accurate_team(season)
+    game_team_results_by_season(season)
+    shots_and_goals_per_team_in_season_start
+    add_shots_and_goals
+    team_with_least_shot_to_goal_ratio
+  end
 
 #------------TeamStatistics
 
@@ -180,7 +193,7 @@ class StatTracker
   end
 
 #---------------------------
-  private
+  # private
 
   # -----------------GameStatistics
 
@@ -193,27 +206,27 @@ def game_team_results_by_season(season)
     game_ids_in_season = games_of_season.map do |game|
       game['game_id']
     end
-    @games_results_per_season = game_teams.find_all do |gt|
-      game_ids_in_season.include? gt['game_id']
+    @games_results_per_season = game_teams.find_all do |team_result|
+      game_ids_in_season.include? team_result['game_id']
     end
   end
 
   def coaches_records_start
     @coach_record_hash = {}
-    @games_results_per_season.each do |gr|
-      @coach_record_hash[gr['head_coach']] = {wins: 0, losses: 0, ties:0}
+    @games_results_per_season.each do |team_result|
+      @coach_record_hash[team_result['head_coach']] = {wins: 0, losses: 0, ties:0}
     end
     @coach_record_hash
   end
 
   def add_wins_losses
-    @games_results_per_season.each do |gr|
-      if gr['result'] == "WIN"
-        @coach_record_hash[gr['head_coach']][:wins] += 1
-      elsif gr['result'] == "LOSS"
-        @coach_record_hash[gr['head_coach']][:losses] += 1
-      elsif gr['result'] == "TIE"
-        @coach_record_hash[gr['head_coach']][:ties] += 1
+    @games_results_per_season.each do |team_result|
+      if team_result['result'] == "WIN"
+        @coach_record_hash[team_result['head_coach']][:wins] += 1
+      elsif team_result['result'] == "LOSS"
+        @coach_record_hash[team_result['head_coach']][:losses] += 1
+      elsif team_result['result'] == "TIE"
+        @coach_record_hash[team_result['head_coach']][:ties] += 1
       end
     end
     @coach_record_hash
@@ -231,6 +244,35 @@ def game_team_results_by_season(season)
     end[0]
   end
 
+  def shots_and_goals_per_team_in_season_start
+    @shots_per_team = {}
+    @games_results_per_season.each do |team_result|
+      @shots_per_team[team_result['team_id']] = {shots: 0, goals: 0}
+    end
+    @shots_per_team
+  end
+
+  def add_shots_and_goals
+    @games_results_per_season.each do |team_result|
+      @shots_per_team[team_result['team_id']][:shots] += team_result['shots'].to_i
+      @shots_per_team[team_result['team_id']][:goals] += team_result['goals'].to_i
+    end
+    @shots_per_team
+  end
+
+  def team_with_best_shot_to_goal_ratio
+    result_id = @shots_per_team.max_by do |id, s_g|
+      s_g[:goals].to_f / s_g[:shots]
+    end[0]
+    find_team_by_team_id(result_id)
+  end
+
+  def team_with_least_shot_to_goal_ratio
+    result_id = @shots_per_team.min_by do |id, s_g|
+      s_g[:goals].to_f / s_g[:shots]
+    end[0]
+    find_team_by_team_id(result_id)
+  end
 
 #------------LeagueStatistics Helper Methods
   def find_team_by_team_id(id)

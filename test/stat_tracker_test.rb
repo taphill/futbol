@@ -241,6 +241,32 @@ class StatTrackerTest < Minitest::Test
     assert_equal "John Tortorella", stat_tracker.worst_coach('20122013')
   end
 
+  def test_most_accurate_team
+    game_path = './fixture/games_dummy.csv'
+    team_path = './fixture/teams_dummy.csv'
+    game_teams_path = './fixture/game_teams_dummy.csv'
+    locations = {
+      games: game_path,
+      teams: team_path,
+      game_teams: game_teams_path
+    }
+    stat_tracker = StatTracker.from_csv(locations)
+    assert_equal "FC Dallas", stat_tracker.most_accurate_team('20122013')
+  end
+
+  def test_least_accurate_team
+    game_path = './fixture/games_dummy.csv'
+    team_path = './fixture/teams_dummy.csv'
+    game_teams_path = './fixture/game_teams_dummy.csv'
+    locations = {
+      games: game_path,
+      teams: team_path,
+      game_teams: game_teams_path
+    }
+    stat_tracker = StatTracker.from_csv(locations)
+    assert_equal "Sporting Kansas City", stat_tracker.least_accurate_team('20122013')
+  end
+
 
 #---------TeamStatisticsTests
   def test_it_can_get_team_info
