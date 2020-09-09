@@ -395,15 +395,15 @@ def game_team_results_by_season(season)
   def result_totals_by_team(team_id)
     result = {}
     result[:total]  = game_info_by_team(team_id).length
-    result[:wins]   = game_info_by_team(team_id).select do |game|
-                        game['result'] == "WIN"
-                      end.length
-    result[:ties]   = game_info_by_team(team_id).select do |game|
-                        game['result'] == "TIE"
-                      end.length
-    result[:losses] = game_info_by_team(team_id).select do |game|
-                        game['result'] == "LOSS"
-                      end.length
+    result[:wins]   = (result_totals_helper(team_id, "WIN")).length
+    result[:ties]   = (result_totals_helper(team_id, "TIES")).length
+    result[:losses] = (result_totals_helper(team_id, "LOSSES")).length
     result
+  end
+
+  def result_totals_helper(team_id, result)
+    game_info_by_team(team_id).select do |game|
+      game['result'] == result
+    end
   end
 end
