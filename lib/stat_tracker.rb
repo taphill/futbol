@@ -70,16 +70,55 @@ class StatTracker
   end
 
   def average_goals_per_game
-    total_number_of_goals / total_number_of_games
+    (total_goals.to_f / total_number_of_games).round(2)
   end
 
-  def total_number_of_goals
-    
+  def total_goals
+    goal_count = 0
+    games.each do |game|
+      goal_count += game['home_goals'].to_i
+      goal_count += game['away_goals'].to_i
+    end
+    return goal_count
   end
 
   def total_number_of_games
-
+    game_count = 0
+    games.each do |game|
+      game_count += 1
+    end
+    return game_count
   end
+
+  def average_goals_by_season
+    season_hash = { }
+    games.each do |game|
+      season_hash[game['season']] = 0
+    end
+
+    season_hash.each do |season, average_goals|
+      games.each do |game|
+        # require "pry"; binding.pry
+        if game['season'] == season
+          average_goals += game['away_goals'].to_i
+          average_goals += game['home_goals'].to_i
+        end
+      end
+      season_hash[season] = average_goals
+    end
+
+    season_hash.each do |season, goals|
+      count_of_games_by_season.each do |season_games, games|
+        if season_games == season
+          average = goals.to_f / games.to_f
+          season_hash[season] = (average).round(2)
+        end
+      end
+    end
+  end
+
+  
+
 #
 #------------LeagueStatistics
   def count_of_teams
