@@ -207,6 +207,10 @@ class StatTracker
     end
   end
 
+  def average_win_percentage(team_id)
+    (result_totals_by_team(team_id)[:wins].to_f / result_totals_by_team(team_id)[:total].to_f).round(2)
+  end
+
 #---------------------------
   # private
 
@@ -374,5 +378,20 @@ def game_team_results_by_season(season)
     game_teams.select do |game_team|
       game_team['team_id'] == team_id
     end
+  end
+
+  def result_totals_by_team(team_id)
+    result = {}
+    result[:total]  = game_info_by_team(team_id).length
+    result[:wins]   = game_info_by_team(team_id).select do |game|
+                        game['result'] == "WIN"
+                      end.length
+    result[:ties]   = game_info_by_team(team_id).select do |game|
+                        game['result'] == "TIE"
+                      end.length
+    result[:losses] = game_info_by_team(team_id).select do |game|
+                        game['result'] == "LOSS"
+                      end.length
+    result
   end
 end
