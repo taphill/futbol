@@ -42,7 +42,7 @@ class StatTrackerTest < Minitest::Test
     assert_equal '/api/v1/venues/null', stat_tracker.games[0]['venue_link']
   end
 
-  def test_it_can_read_csv_games_data
+  def test_it_can_read_csv_teams_data
     game_path = './fixture/games_nil.csv'
     team_path = './fixture/teams_dummy.csv'
     game_teams_path = './fixture/game_teams_nil.csv'
