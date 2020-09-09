@@ -122,11 +122,11 @@ class StatTrackerTest < Minitest::Test
     }
     stat_tracker = StatTracker.from_csv(locations)
     expected = {
-      team_id: "4",
-      franchise_id: "16",
-      team_name: "Chicago Fire",
-      abbreviation: "CHI",
-      link: "/api/v1/teams/4"
+      'team_id'=> "4",
+      'franchise_id'=>  "16",
+      'team_name'=>  "Chicago Fire",
+      'abbreviation'=>  "CHI",
+      'link'=>  "/api/v1/teams/4"
     }
     assert_equal expected, stat_tracker.team_info("4")
   end
@@ -160,7 +160,7 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_games_by_team
-    skip
+    # skip
     game_path = './fixture/games_dummy.csv'
     team_path = './fixture/teams_dummy.csv'
     game_teams_path = './fixture/game_teams_dummy.csv'
@@ -170,7 +170,7 @@ class StatTrackerTest < Minitest::Test
       game_teams: game_teams_path
     }
     stat_tracker = StatTracker.from_csv(locations)
-
+    expected = 1
     assert_equal expected, stat_tracker.games_by_team("16")
   end
 #----------------------------

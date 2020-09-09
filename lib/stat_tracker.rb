@@ -70,11 +70,11 @@ class StatTracker
     result = { }
     teams.each do |team|
       if team_id == team['team_id']
-        result[:team_id] = team['team_id']
-        result[:franchise_id] = team['franchiseId']
-        result[:team_name] = team['teamName']
-        result[:abbreviation] = team['abbreviation']
-        result[:link] = team['link']
+        result['team_id'] = team['team_id']
+        result['franchise_id'] = team['franchiseId']
+        result['team_name'] = team['teamName']
+        result['abbreviation'] = team['abbreviation']
+        result['link'] = team['link']
       end
     end
     result
