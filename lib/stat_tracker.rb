@@ -329,9 +329,9 @@ def game_team_results_by_season(season)
 
 #----------TeamStatsHelpers
   def average_of_wins_by_season(team_id)
-    counts_by_season = { }
+    counts_by_season = {}
     unique_game_info(team_id).each do |season, games|
-      counts_by_season[season] = { }
+      counts_by_season[season] = {}
       counts_by_season[season][:total] = games.length
       counts_by_season[season][:wins] = games.select do |game|
         game['result'] == "WIN"
@@ -343,7 +343,7 @@ def game_team_results_by_season(season)
 
   def unique_game_info(team_id)
     results = game_info_by_team(team_id)
-    results_by_season = { }
+    results_by_season = {}
     team_games_by_season(games_by_team(team_id)).each do |season, games|
       results_by_season[season] = []
       games.each do |game|
@@ -356,7 +356,7 @@ def game_team_results_by_season(season)
   end
 
   def team_games_by_season(all_games = games)
-    result = { }
+    result = {}
     all_games.each do |game|
       if result[game['season']] == nil
         result[game['season']] = [game]
