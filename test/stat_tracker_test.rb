@@ -342,7 +342,7 @@ class StatTrackerTest < Minitest::Test
     }
     stat_tracker = StatTracker.from_csv(locations)
 
-    assert_equal 7, stat_tracker.fewest_goals_scored("18")
+    assert_equal 7, stat_tracker.most_goals_scored("18")
   end
 
   def test_it_can_find_least_goals
