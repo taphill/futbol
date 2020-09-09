@@ -158,20 +158,5 @@ class StatTrackerTest < Minitest::Test
 
     assert_equal "20142015", stat_tracker.worst_season("6")
   end
-
-  def test_games_by_team
-    # skip
-    game_path = './fixture/games_dummy.csv'
-    team_path = './fixture/teams_dummy.csv'
-    game_teams_path = './fixture/game_teams_dummy.csv'
-    locations = {
-      games: game_path,
-      teams: team_path,
-      game_teams: game_teams_path
-    }
-    stat_tracker = StatTracker.from_csv(locations)
-    expected = 1
-    assert_equal expected, stat_tracker.games_by_team("16")
-  end
 #----------------------------
 end
