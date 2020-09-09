@@ -107,18 +107,18 @@ class StatTracker
 end
 
 #----------TeamStatsHelpers
-def average_of_wins_by_season(team_id)
-  counts_by_season = { }
-  unique_game_info(team_id).each do |season, games|
-    counts_by_season[season] = { }
-    counts_by_season[season][:total] = games.length
-    counts_by_season[season][:wins] = games.select do |game|
-      game['result'] == "WIN"
-    end.length
-    counts_by_season[season][:average] = (counts_by_season[season][:wins].to_f / counts_by_season[season][:total]).round(2)
+  def average_of_wins_by_season(team_id)
+    counts_by_season = { }
+    unique_game_info(team_id).each do |season, games|
+      counts_by_season[season] = { }
+      counts_by_season[season][:total] = games.length
+      counts_by_season[season][:wins] = games.select do |game|
+        game['result'] == "WIN"
+      end.length
+      counts_by_season[season][:average] = (counts_by_season[season][:wins].to_f / counts_by_season[season][:total]).round(2)
+    end
+    counts_by_season
   end
-  counts_by_season
-end
 
   def unique_game_info(team_id)
     results = game_info_by_team(team_id)
