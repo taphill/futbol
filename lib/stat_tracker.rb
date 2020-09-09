@@ -39,39 +39,9 @@ class StatTracker
     average.round(2)
   end
 
-  def all_home_games
-    game_teams.find_all do |game|
-      game['HoA'] == "home"
-    end
-  end
-
-  def all_home_game_wins
-    all_home_games.find_all do |game|
-      game['result'] == "WIN"
-    end
-  end
-
-  def all_home_game_losses
-    all_home_games.find_all do |game|
-      game['result'] == "LOSS"
-    end
-  end
-
   def percentage_visitor_wins
     average = all_away_game_wins.count / all_away_games.count.to_f
     average.round(2)
-  end
-
-  def all_away_games
-    game_teams.find_all do |game|
-      game['HoA'] == "away"
-    end
-  end
-
-  def all_away_game_wins
-    all_away_games.find_all do |game|
-      game['result'] == "WIN"
-    end
   end
 
   def percentage_ties
@@ -79,16 +49,43 @@ class StatTracker
     average.round(2)
   end
 
-  def all_games
-    game_teams.find_all do |game|
-      game['HoA'] == "away" || game['HoA'] == "home"
+  def count_of_games_by_season
+    games_by_season_index = {}
+    games_by_season.each do |season, games|
+      games_by_season_index[season] = games.length
     end
+    games_by_season_index
   end
 
-  def all_tie_games
-    all_games.find_all do |game|
-      game['result'] == "TIE"
+  def games_by_season
+    result = { }
+    games.each do |game|
+      if result[game['season']] == nil
+        result[game['season']] = [game]
+      else
+        result[game['season']] << game
+      end
     end
+    result
+  end
+
+  def average_goals_per_game
+    total_number_of_goals / total_number_of_games
+  end
+
+  def total_number_of_goals
+    home_goals.count + away_goals.count
+  end
+
+  def home_goals
+    games.find_all do |game|
+      game['away_goals'].to_i
+    end
+    require "pry"; binding.pry
+  end
+
+  def total_number_of_games
+
   end
 #
 #------------LeagueStatistics
@@ -243,6 +240,47 @@ class StatTracker
 
   # -----------------GameStatistics
 
+    def all_home_games
+      game_teams.find_all do |game|
+        game['HoA'] == "home"
+      end
+    end
+
+    def all_home_game_wins
+      all_home_games.find_all do |game|
+        game['result'] == "WIN"
+      end
+    end
+
+    def all_home_game_losses
+      all_home_games.find_all do |game|
+        game['result'] == "LOSS"
+      end
+    end
+
+    def all_away_games
+      game_teams.find_all do |game|
+        game['HoA'] == "away"
+      end
+    end
+
+    def all_away_game_wins
+      all_away_games.find_all do |game|
+        game['result'] == "WIN"
+      end
+    end
+
+    def all_games
+      game_teams.find_all do |game|
+        game['HoA'] == "away" || game['HoA'] == "home"
+      end
+    end
+
+    def all_tie_games
+      all_games.find_all do |game|
+        game['result'] == "TIE"
+      end
+    end
   # -----------------SeasonStatistics
 
 def game_team_results_by_season(season)
