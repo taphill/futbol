@@ -207,6 +207,22 @@ class StatTracker
     end
   end
 
+  def average_win_percentage(team_id)
+    (result_totals_by_team(team_id)[:wins].to_f / result_totals_by_team(team_id)[:total].to_f).round(2)
+  end
+
+  def most_goals_scored(team_id)
+    game_info_by_team(team_id).max_by do |game|
+      (game['goals']).to_i
+    end['goals'].to_i
+  end
+
+  def fewest_goals_scored(team_id)
+    game_info_by_team(team_id).min_by do |game|
+      (game['goals']).to_i
+    end['goals'].to_i
+  end
+
 #---------------------------
   # private
 
@@ -325,9 +341,9 @@ def game_team_results_by_season(season)
 
 #----------TeamStatsHelpers
   def average_of_wins_by_season(team_id)
-    counts_by_season = { }
+    counts_by_season = {}
     unique_game_info(team_id).each do |season, games|
-      counts_by_season[season] = { }
+      counts_by_season[season] = {}
       counts_by_season[season][:total] = games.length
       counts_by_season[season][:wins] = games.select do |game|
         game['result'] == "WIN"
@@ -339,7 +355,7 @@ def game_team_results_by_season(season)
 
   def unique_game_info(team_id)
     results = game_info_by_team(team_id)
-    results_by_season = { }
+    results_by_season = {}
     team_games_by_season(games_by_team(team_id)).each do |season, games|
       results_by_season[season] = []
       games.each do |game|
@@ -352,7 +368,7 @@ def game_team_results_by_season(season)
   end
 
   def team_games_by_season(all_games = games)
-    result = { }
+    result = {}
     all_games.each do |game|
       if result[game['season']] == nil
         result[game['season']] = [game]
@@ -373,6 +389,21 @@ def game_team_results_by_season(season)
   def game_info_by_team(team_id)
     game_teams.select do |game_team|
       game_team['team_id'] == team_id
+    end
+  end
+
+  def result_totals_by_team(team_id)
+    result = {}
+    result[:total]  = game_info_by_team(team_id).length
+    result[:wins]   = (result_totals_helper(team_id, "WIN")).length
+    result[:ties]   = (result_totals_helper(team_id, "TIES")).length
+    result[:losses] = (result_totals_helper(team_id, "LOSSES")).length
+    result
+  end
+
+  def result_totals_helper(team_id, result)
+    game_info_by_team(team_id).select do |game|
+      game['result'] == result
     end
   end
 end
