@@ -98,7 +98,6 @@ class StatTracker
 
     season_hash.each do |season, average_goals|
       games.each do |game|
-        # require "pry"; binding.pry
         if game['season'] == season
           average_goals += game['away_goals'].to_i
           average_goals += game['home_goals'].to_i
