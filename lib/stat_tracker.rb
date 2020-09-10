@@ -117,8 +117,6 @@ class StatTracker
     end
   end
 
-  
-
 #
 #------------LeagueStatistics
   def count_of_teams
