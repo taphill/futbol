@@ -274,6 +274,17 @@ class StatTracker
     end['goals'].to_i
   end
 
+  def favorite_opponent(team_id)
+
+  end
+
+  def games_by_game_id(games)
+    games.map do |game|
+      game['game_id']
+    end 
+  end
+
+
 #---------------------------
   # private
 
