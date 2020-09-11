@@ -81,6 +81,8 @@ class StatTracker
     games.find_all do |game|
       game['away_goals'].to_i
     end
+  end
+
   def total_goals
     goal_count = 0
     games.each do |game|
