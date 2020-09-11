@@ -499,4 +499,32 @@ class StatTrackerTest < Minitest::Test
 
     assert_equal 0, stat_tracker.fewest_goals_scored("18")
   end
+
+  def test_it_can_find_fave_opponent
+    game_path = './data/games.csv'
+    team_path = './data/teams.csv'
+    game_teams_path = './data/game_teams.csv'
+    locations = {
+      games: game_path,
+      teams: team_path,
+      game_teams: game_teams_path
+    }
+    stat_tracker = StatTracker.from_csv(locations)
+
+    assert_equal "DC United", stat_tracker.favorite_opponent("18")
+  end
+
+  def test_it_can_find_rival
+    game_path = './data/games.csv'
+    team_path = './data/teams.csv'
+    game_teams_path = './data/game_teams.csv'
+    locations = {
+      games: game_path,
+      teams: team_path,
+      game_teams: game_teams_path
+    }
+    stat_tracker = StatTracker.from_csv(locations)
+
+    assert_equal "LA Galaxy", stat_tracker.rival("18")
+  end
 end
