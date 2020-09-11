@@ -221,8 +221,7 @@ class StatTrackerTest < Minitest::Test
   end
 
 #---------------LeagueStatisticsTests
-  def test_it_can_count_of_teams
-    skip
+  def test_it_can_count_teams
     game_path = './fixture/games_count_teams.csv'
     team_path = './data/teams.csv'
     game_teams_path = './fixture/game_teams_empty.csv'
@@ -412,7 +411,6 @@ class StatTrackerTest < Minitest::Test
 
 #---------TeamStatisticsTests
   def test_it_can_get_team_info
-    skip
     game_path = './fixture/games_dummy.csv'
     team_path = './fixture/teams_dummy.csv'
     game_teams_path = './fixture/game_teams_dummy.csv'
