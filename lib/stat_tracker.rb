@@ -274,6 +274,56 @@ class StatTracker
     end['goals'].to_i
   end
 
+  def favorite_opponent(team_id)
+    opponent_stats = find_opponent_games(team_id)
+    opponent_stats.each do |team_id, team_info|
+      opponent_stats[team_id][:total] = team_info[:game_data].length
+      opponent_stats[team_id][:wins] = team_info[:game_data].select do |game|
+        game['result'] == "WIN"
+      end.length
+      opponent_stats[team_id][:win_percentage] = (opponent_stats[team_id][:wins]/opponent_stats[team_id][:total].to_f).round(2)
+    end
+    favorite_team_id = opponent_stats.keys.min_by do |opponent_id|
+      opponent_stats[opponent_id][:win_percentage]
+    end
+    team_info(favorite_team_id)["team_name"]
+  end
+
+  def rival(team_id)
+    opponent_stats = find_opponent_games(team_id)
+    opponent_stats.each do |team_id, team_info|
+      opponent_stats[team_id][:total] = team_info[:game_data].length
+      opponent_stats[team_id][:wins] = team_info[:game_data].select do |game|
+        game['result'] == "WIN"
+      end.length
+      opponent_stats[team_id][:win_percentage] = (opponent_stats[team_id][:wins]/opponent_stats[team_id][:total].to_f).round(2)
+    end
+    favorite_team_id = opponent_stats.keys.max_by do |opponent_id|
+      opponent_stats[opponent_id][:win_percentage]
+    end
+    team_info(favorite_team_id)["team_name"]
+  end
+
+  def find_opponent_games(team_id)
+    game_ids = games_by_game_id(games_by_team(team_id))
+    opponent_games = {}
+    teams.each do |team|
+      next if team['team_id'] == team_id
+        opponent_games[team['team_id']] = {}
+        opponent_games[team['team_id']][:game_data] = game_teams.select do |game|
+          (game['team_id'] == team['team_id']) && game_ids.include?(game['game_id'])
+          end
+        end
+        opponent_games
+      end
+
+  def games_by_game_id(games)
+    games.map do |game|
+      game['game_id']
+    end
+  end
+
+
 #---------------------------
   # private
 
@@ -503,8 +553,7 @@ def game_team_results_by_season(season)
 
   def games_by_team(team_id, all_games = games)
     games.select do |game|
-      game['home_team_id'] == team_id ||
-      game['away_team_id'] == team_id
+      game['home_team_id'] == team_id || game['away_team_id'] == team_id
     end
   end
 
