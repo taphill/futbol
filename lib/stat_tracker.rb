@@ -73,6 +73,14 @@ class StatTracker
     (total_goals.to_f / total_number_of_games).round(2)
   end
 
+  def total_number_of_goals
+    home_goals.count + away_goals.count
+  end
+
+  def home_goals
+    games.find_all do |game|
+      game['away_goals'].to_i
+    end
   def total_goals
     goal_count = 0
     games.each do |game|
@@ -189,35 +197,94 @@ class StatTracker
 
   def winningest_coach(season)
     game_team_results_by_season(season)
-    coaches_records_start
+    initialize_coaches_records
     add_wins_losses
     determine_winningest_coach
   end
 
   def worst_coach(season)
     game_team_results_by_season(season)
-    coaches_records_start
+    initialize_coaches_records
     add_wins_losses
     determine_worst_coach
   end
 
+  def most_accurate_team(season)
+    game_team_results_by_season(season)
+    initialize_shots_and_goals_per_team
+    add_shots_and_goals
+    determine_team_with_best_accuracy
+  end
+
+  def least_accurate_team(season)
+    game_team_results_by_season(season)
+    initialize_shots_and_goals_per_team
+    add_shots_and_goals
+    determine_team_with_worst_accuracy
+  end
+
+  def most_tackles(season)
+    game_team_results_by_season(season)
+    initialize_tackles_per_team
+    add_tackles
+    determine_team_with_most_tackles
+  end
+
+  def fewest_tackles(season)
+    game_team_results_by_season(season)
+    initialize_tackles_per_team
+    add_tackles
+    determine_team_with_least_tackles
+  end
+
 
 #------------TeamStatistics
-
-  def team_info
+  def team_info(team_id)
     result = { }
     teams.each do |team|
-      (result[:team_id] ||= []) << team['team_id']
-      (result[:franchiseId] ||= []) << team['franchiseId']
-      (result[:teamName] ||= []) << team['teamName']
-      (result[:abbreviation] ||= []) << team['abbreviation']
-      (result[:link] ||= []) << team['link']
+      if team_id == team['team_id']
+        result['team_id'] = team['team_id']
+        result['franchise_id'] = team['franchiseId']
+        result['team_name'] = team['teamName']
+        result['abbreviation'] = team['abbreviation']
+        result['link'] = team['link']
+      end
     end
     result
   end
 
+  def best_season(team_id)
+    unique_game_info(team_id)
+    average_of_wins_by_season(team_id).keys.max_by do |season|
+      average_of_wins_by_season(team_id)[season][:average]
+    end
+  end
+
+  def worst_season(team_id)
+    unique_game_info(team_id)
+    average_of_wins_by_season(team_id).keys.min_by do |season|
+      average_of_wins_by_season(team_id)[season][:average]
+    end
+  end
+
+  def average_win_percentage(team_id)
+    (result_totals_by_team(team_id)[:wins].to_f / result_totals_by_team(team_id)[:total].to_f).round(2)
+  end
+
+  def most_goals_scored(team_id)
+    game_info_by_team(team_id).max_by do |game|
+      (game['goals']).to_i
+    end['goals'].to_i
+  end
+
+  def fewest_goals_scored(team_id)
+    game_info_by_team(team_id).min_by do |game|
+      (game['goals']).to_i
+    end['goals'].to_i
+  end
+
 #---------------------------
-  private
+  # private
 
   # -----------------GameStatistics
 
@@ -271,27 +338,27 @@ def game_team_results_by_season(season)
     game_ids_in_season = games_of_season.map do |game|
       game['game_id']
     end
-    @games_results_per_season = game_teams.find_all do |gt|
-      game_ids_in_season.include? gt['game_id']
+    @games_results_per_season = game_teams.find_all do |team_result|
+      game_ids_in_season.include? team_result['game_id']
     end
   end
 
-  def coaches_records_start
+  def initialize_coaches_records
     @coach_record_hash = {}
-    @games_results_per_season.each do |gr|
-      @coach_record_hash[gr['head_coach']] = {wins: 0, losses: 0, ties:0}
+    @games_results_per_season.each do |team_result|
+      @coach_record_hash[team_result['head_coach']] = {wins: 0, losses: 0, ties:0}
     end
     @coach_record_hash
   end
 
   def add_wins_losses
-    @games_results_per_season.each do |gr|
-      if gr['result'] == "WIN"
-        @coach_record_hash[gr['head_coach']][:wins] += 1
-      elsif gr['result'] == "LOSS"
-        @coach_record_hash[gr['head_coach']][:losses] += 1
-      elsif gr['result'] == "TIE"
-        @coach_record_hash[gr['head_coach']][:ties] += 1
+    @games_results_per_season.each do |team_result|
+      if team_result['result'] == "WIN"
+        @coach_record_hash[team_result['head_coach']][:wins] += 1
+      elsif team_result['result'] == "LOSS"
+        @coach_record_hash[team_result['head_coach']][:losses] += 1
+      elsif team_result['result'] == "TIE"
+        @coach_record_hash[team_result['head_coach']][:ties] += 1
       end
     end
     @coach_record_hash
@@ -309,6 +376,64 @@ def game_team_results_by_season(season)
     end[0]
   end
 
+  def initialize_shots_and_goals_per_team
+    @shots_per_team = {}
+    @games_results_per_season.each do |team_result|
+      @shots_per_team[team_result['team_id']] = {shots: 0, goals: 0}
+    end
+    @shots_per_team
+  end
+
+  def add_shots_and_goals
+    @games_results_per_season.each do |team_result|
+      @shots_per_team[team_result['team_id']][:shots] += team_result['shots'].to_i
+      @shots_per_team[team_result['team_id']][:goals] += team_result['goals'].to_i
+    end
+    @shots_per_team
+  end
+
+  def determine_team_with_best_accuracy
+    result_id = @shots_per_team.max_by do |id, s_g|
+      s_g[:goals].to_f / s_g[:shots]
+    end[0]
+    find_team_by_team_id(result_id)
+  end
+
+  def determine_team_with_worst_accuracy
+    result_id = @shots_per_team.min_by do |id, s_g|
+      s_g[:goals].to_f / s_g[:shots]
+    end[0]
+    find_team_by_team_id(result_id)
+  end
+
+  def initialize_tackles_per_team
+    @tackles_per_team = {}
+    @games_results_per_season.each do |team_result|
+      @tackles_per_team[team_result['team_id']] = 0
+    end
+    @tackles_per_team
+  end
+
+  def add_tackles
+    @games_results_per_season.each do |team_result|
+      @tackles_per_team[team_result['team_id']] += team_result['tackles'].to_i
+    end
+    @tackles_per_team
+  end
+
+  def determine_team_with_most_tackles
+    result_id = @tackles_per_team.max_by do |id, tackle_count|
+      tackle_count
+    end[0]
+    find_team_by_team_id(result_id)
+  end
+
+  def determine_team_with_least_tackles
+    result_id = @tackles_per_team.min_by do |id, tackle_count|
+      tackle_count
+    end[0]
+    find_team_by_team_id(result_id)
+  end
 
 #------------LeagueStatistics Helper Methods
   def find_team_by_team_id(id)
@@ -341,6 +466,74 @@ def game_team_results_by_season(season)
       end
       games_goals[:total_games] = games_goals[:away_games] + games_goals[:home_games]
       games_goals[:total_goals] = games_goals[:away_goals] + games_goals[:home_goals]
+    end
+  end
+
+#----------TeamStatsHelpers
+  def average_of_wins_by_season(team_id)
+    counts_by_season = {}
+    unique_game_info(team_id).each do |season, games|
+      counts_by_season[season] = {}
+      counts_by_season[season][:total] = games.length
+      counts_by_season[season][:wins] = games.select do |game|
+        game['result'] == "WIN"
+      end.length
+      counts_by_season[season][:average] = (counts_by_season[season][:wins].to_f / counts_by_season[season][:total]).round(2)
+    end
+    counts_by_season
+  end
+
+  def unique_game_info(team_id)
+    results = game_info_by_team(team_id)
+    results_by_season = {}
+    team_games_by_season(games_by_team(team_id)).each do |season, games|
+      results_by_season[season] = []
+      games.each do |game|
+        results_by_season[season] << results.find do |game_info|
+          game['game_id'] == game_info['game_id']
+        end
+      end
+    end
+    results_by_season
+  end
+
+  def team_games_by_season(all_games = games)
+    result = {}
+    all_games.each do |game|
+      if result[game['season']] == nil
+        result[game['season']] = [game]
+      else
+        result[game['season']] << game
+      end
+    end
+    result
+  end
+
+  def games_by_team(team_id, all_games = games)
+    games.select do |game|
+      game['home_team_id'] == team_id ||
+      game['away_team_id'] == team_id
+    end
+  end
+
+  def game_info_by_team(team_id)
+    game_teams.select do |game_team|
+      game_team['team_id'] == team_id
+    end
+  end
+
+  def result_totals_by_team(team_id)
+    result = {}
+    result[:total]  = game_info_by_team(team_id).length
+    result[:wins]   = (result_totals_helper(team_id, "WIN")).length
+    result[:ties]   = (result_totals_helper(team_id, "TIES")).length
+    result[:losses] = (result_totals_helper(team_id, "LOSSES")).length
+    result
+  end
+
+  def result_totals_helper(team_id, result)
+    game_info_by_team(team_id).select do |game|
+      game['result'] == result
     end
   end
 end
