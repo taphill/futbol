@@ -143,7 +143,7 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_it_knows_average_goals_by_season
-    skip
+    # skip
     game_path = './data/games.csv'
     team_path = './data/teams.csv'
     game_teams_path = './data/game_teams.csv'
