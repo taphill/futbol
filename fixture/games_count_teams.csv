@@ -1,0 +1,8 @@
+game_id,season,type,date_time,away_team_id,home_team_id,away_goals,home_goals,venue,venue_link
+2015030313,20152016,Postseason,5/19/16,5,14,2,2,Audi Field,/api/v1/venues/null
+2015030314,20152016,Postseason,5/21/16,5,14,3,2,Audi Field,/api/v1/venues/null
+2012030236,20122013,Postseason,5/28/13,16,17,2,3,Dignity Health Sports Park,/api/v1/venues/null
+2012030237,20122013,Postseason,5/30/13,17,16,1,2,Gillette Stadium,/api/v1/venues/null
+2012030121,20122013,Postseason,5/2/13,9,8,2,2,Red Bull Arena,/api/v1/venues/null
+2014030172,20142015,Postseason,4/19/15,52,24,1,2,Rio Tinto Stadium,/api/v1/venues/null
+2014030173,20142015,Postseason,4/21/15,24,52,3,2,Providence Park,/api/v1/venues/null
