@@ -19,16 +19,15 @@ class TeamManager
     team_stats_hash = {}
     teams.each do |team|
       team_stats_hash[team.team_id] = { total_games: 0, total_goals: 0,
-                                           away_games: 0, home_games: 0,
-                                           away_goals: 0, home_goals: 0 }
+                                        away_games: 0, home_games: 0,
+                                        away_goals: 0, home_goals: 0 }
     end
     team_stats_hash
   end
 
 #-------------TeamStats
-
   def team_info(team_id)
-    team_info = { }
+    team_info = {}
     @teams.each do |team|
       if team_id == team.team_id
         team_info['team_id'] = team.team_id
