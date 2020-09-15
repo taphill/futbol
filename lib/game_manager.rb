@@ -13,7 +13,7 @@ class GameManager
   end
 
   def create_games(path)
-    games_data = CSV.read(path, headers:true)
+    games_data = CSV.read(path, headers: true)
 
     @games = games_data.map do |data|
       Game.new(data, self)
@@ -21,12 +21,11 @@ class GameManager
   end
 
   #------------SeasonStats
-
   def games_of_season(season)
-    @games.find_all {|game| game.season == season}
+    @games.find_all { |game| game.season == season }
   end
 
-#---------------TeamStats
+  #---------------TeamStats
   def games_by_team(team_id)
     @games.select do |game|
       game.home_team_id == team_id || game.away_team_id == team_id
