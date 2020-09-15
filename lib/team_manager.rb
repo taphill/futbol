@@ -8,7 +8,7 @@ class TeamManager
   end
 
   def create_teams(path)
-    teams_data = CSV.read(path, headers:true)
+    teams_data = CSV.read(path, headers: true)
 
     @teams = teams_data.map do |data|
       Team.new(data, self)
@@ -25,7 +25,7 @@ class TeamManager
     team_stats_hash
   end
 
-#-------------TeamStats
+  #-------------TeamStats
   def team_info(team_id)
     team_info = {}
     @teams.each do |team|
