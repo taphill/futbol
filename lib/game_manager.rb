@@ -20,11 +20,6 @@ class GameManager
     end
   end
 
-  #------------SeasonStats
-  def games_of_season(season)
-    @games.find_all { |game| game.season == season }
-  end
-
   #---------------TeamStats
   def games_by_team(team_id)
     @games.select do |game|
@@ -60,7 +55,6 @@ class GameManager
     result = @games.min_by do |game|
       game.away_goals.to_i + game.home_goals.to_i
     end
-
     result.away_goals.to_i + result.home_goals.to_i
   end
 
@@ -94,7 +88,6 @@ class GameManager
       goal_count += game.home_goals.to_i
       goal_count += game.away_goals.to_i
     end
-
     goal_count
   end
 
@@ -103,7 +96,6 @@ class GameManager
     games.each do
       game_count += 1
     end
-
     game_count
   end
 

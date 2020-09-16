@@ -136,7 +136,7 @@ module AssistantToTheGameTeamsManager
     end
   end
 
-    def all_home_games
+  def all_home_games
     @game_teams.find_all do |game|
       game.hoa == "home"
     end
