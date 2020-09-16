@@ -1,7 +1,7 @@
-require 'minitest/autorun'
-require 'minitest/pride'
-require 'mocha/minitest'
-require './lib/stat_tracker'
+# require 'minitest/autorun'
+# require 'minitest/pride'
+# require 'mocha/minitest'
+# require './lib/stat_tracker'
 require './test/test_helper'
 
 class GameManagerTest < Minitest::Test
@@ -46,22 +46,6 @@ class GameManagerTest < Minitest::Test
     assert_equal '3', @stat_tracker.game_manager.games[0].home_goals
     assert_equal 'Toyota Stadium', @stat_tracker.game_manager.games[0].venue
     assert_equal '/api/v1/venues/null', @stat_tracker.game_manager.games[0].venue_link
-  end
-
-  def test_it_finds_game_of_season
-    path = './fixture/game_blank.csv'
-    game_manager = GameManager.new(path, nil)
-    game_1 = mock("Season Game 1")
-    game_2 = mock("Season Game 2")
-    game_3 = mock("Season Game 3")
-    game_manager.games << game_1
-    game_manager.games << game_2
-    game_manager.games << game_3
-
-    game_1.stubs(:season).returns('20122013')
-    game_2.stubs(:season).returns('20122013')
-    game_3.stubs(:season).returns('20132014')
-    assert_equal [game_1, game_2], game_manager.games_of_season('20122013')
   end
 
   def test_it_can_return_team_stats

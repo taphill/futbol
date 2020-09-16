@@ -1,8 +1,8 @@
-require 'minitest/autorun'
-require 'minitest/pride'
-require 'mocha/minitest'
-require './lib/stat_tracker'
-require './lib/game_teams_manager'
+# require 'minitest/autorun'
+# require 'minitest/pride'
+# require 'mocha/minitest'
+# require './lib/stat_tracker'
+# require './lib/game_teams_manager'
 require './test/test_helper'
 
 class GameTeamsManagerTest < Minitest::Test
@@ -576,10 +576,6 @@ class GameTeamsManagerTest < Minitest::Test
     game_teams_6.stubs(:result).returns('LOSS')
 
     assert_equal ({'456'=>1.0, '987'=>1.0}), tracker.game_teams_manager.find_opponent_win_percentage('123')
-  end
-
-  def test_it_finds_team_name
-    assert_equal 'Houston Dynamo', @stat_tracker.game_teams_manager.find_team_name('3')
   end
 
   def test_it_finds_favorite_opponent

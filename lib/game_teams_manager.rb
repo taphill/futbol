@@ -53,51 +53,43 @@ class GameTeamsManager
     result_id = team_tackles(season).min_by { |_id, tackle_count| tackle_count }
     find_team_by_team_id(result_id[0])
   end
+
+  def coaches_records(season)
+    gt_results = game_teams_results_by_season(season)
+    coach_record_start = start_coaches_records(gt_results)
+    add_wins_losses(gt_results, coach_record_start)
+  end
+
+  def teams_shots_to_goals(season)
+    gt_results = game_teams_results_by_season(season)
+    teams_shots_to_goals_start = start_shots_and_goals_per_team(gt_results)
+    add_shots_and_goals(gt_results, teams_shots_to_goals_start)
+  end
+
+  def team_tackles(season)
+    gt_results = game_teams_results_by_season(season)
+    tackles_start = start_tackles_per_team(gt_results)
+    add_tackles(gt_results, tackles_start)
+  end
+
+  def start_coaches_records(gt_results)
+    coach_record_hash = {}
+    gt_results.each do |team_result|
+      coach_record_hash[team_result.head_coach] = {wins: 0, losses: 0, ties:0}
+    end
+    coach_record_hash
+  end
   #-------------GameStatistics
   def percentage_home_wins
-    average = all_home_game_wins.count / all_home_games.count.to_f
-    average.round(2)
+    (all_home_game_wins.count / all_home_games.count.to_f).round(2)
   end
 
   def percentage_visitor_wins
-    average = all_away_game_wins.count / all_away_games.count.to_f
-    average.round(2)
+    (all_away_game_wins.count / all_away_games.count.to_f).round(2)
   end
 
   def percentage_ties
-    average = all_tie_games.count / all_games.count.to_f
-    average.round(2)
-  end
-
-  def start_shots_and_goals_per_team(gt_results)
-    total_shots_goals = {}
-    gt_results.each do |team_result|
-      total_shots_goals[team_result.team_id] = { shots: 0, goals: 0 }
-    end
-    total_shots_goals
-  end
-
-  def add_shots_and_goals(gt_results, teams_shots_to_goals_start)
-    gt_results.each do |team_result|
-      teams_shots_to_goals_start[team_result.team_id][:shots] += team_result.shots.to_i
-      teams_shots_to_goals_start[team_result.team_id][:goals] += team_result.goals.to_i
-    end
-    teams_shots_to_goals_start
-  end
-
-  def start_tackles_per_team(gt_results)
-    tackles_per_team = {}
-    gt_results.each do |team_result|
-      tackles_per_team[team_result.team_id] = 0
-    end
-    tackles_per_team
-  end
-
-  def add_tackles(gt_results, tackles_start)
-    gt_results.each do |team_result|
-      tackles_start[team_result.team_id] += team_result.tackles.to_i
-    end
-    tackles_start
+    (all_tie_games.count / all_games.count.to_f).round(2)
   end
   #-------------TeamStats
   def best_season(team_id)
@@ -136,13 +128,13 @@ class GameTeamsManager
     opponent = find_opponent_win_percentage(team_id).min_by do |_team_id, percentage|
       percentage
     end.first
-    find_team_name(opponent)
+    find_team_by_team_id(opponent)
   end
 
   def rival(team_id)
     opponent = find_opponent_win_percentage(team_id).max_by do |_team_id, percentage|
       percentage
     end.first
-    find_team_name(opponent)
+    find_team_by_team_id(opponent)
   end
 end
