@@ -12,9 +12,6 @@ class TeamTest < Minitest::Test
   end
 
   def test_it_has_attributes
-    path = './data/teams.csv'
-    team = Team.new(path, nil)
-
     assert_equal '1', @team_manager.teams[0].team_id
     assert_equal '23', @team_manager.teams[0].franchise_id
     assert_equal 'Atlanta United', @team_manager.teams[0].team_name

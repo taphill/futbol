@@ -103,10 +103,10 @@ module AssistantToTheGameTeamsManager
   def find_opponent_win_percentage(team_id)
     opponent_games_by_team = find_opponent_games(team_id).group_by(&:team_id)
     win_percentage = {}
-    opponent_games_by_team.each do |team_id, game_teams|
+    opponent_games_by_team.each do |id, game_teams|
       total = 0
-      opponent_wins = game_teams.count {|game_teams| game_teams.result == 'WIN'}
-      win_percentage[team_id] = total += (opponent_wins.to_f / game_teams.length).round(2)
+      opponent_wins = game_teams.count {|game_team| game_team.result == 'WIN'}
+      win_percentage[id] = total += (opponent_wins.to_f / game_teams.length).round(2)
     end
     win_percentage
   end

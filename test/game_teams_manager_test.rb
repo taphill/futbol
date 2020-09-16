@@ -63,14 +63,14 @@ class GameTeamsManagerTest < Minitest::Test
   def test_winningest_coach
     results = @stat_tracker.game_teams_manager.game_teams_results_by_season('20122013')
     coach_record_start = @stat_tracker.game_teams_manager.start_coaches_records(results)
-    total_record = @stat_tracker.game_teams_manager.add_wins_losses(results, coach_record_start)
+    @stat_tracker.game_teams_manager.add_wins_losses(results, coach_record_start)
     assert_equal "Claude Julien", @stat_tracker.game_teams_manager.winningest_coach('20122013')
   end
 
   def test_worst_coach
     results = @stat_tracker.game_teams_manager.game_teams_results_by_season('20122013')
     coach_record_start = @stat_tracker.game_teams_manager.start_coaches_records(results)
-    total_record = @stat_tracker.game_teams_manager.add_wins_losses(results, coach_record_start)
+    @stat_tracker.game_teams_manager.add_wins_losses(results, coach_record_start)
     assert_equal "John Tortorella", @stat_tracker.game_teams_manager.worst_coach('20122013')
   end
 
@@ -272,14 +272,14 @@ class GameTeamsManagerTest < Minitest::Test
   def test_most_accurate_team
     results = @stat_tracker.game_teams_manager.game_teams_results_by_season('20122013')
     teams_shots_to_goals_start = @stat_tracker.game_teams_manager.start_shots_and_goals_per_team(results)
-    total_shot_goals_record = @stat_tracker.game_teams_manager.add_shots_and_goals(results, teams_shots_to_goals_start)
+    @stat_tracker.game_teams_manager.add_shots_and_goals(results, teams_shots_to_goals_start)
     assert_equal "FC Dallas", @stat_tracker.game_teams_manager.most_accurate_team('20122013')
   end
 
   def test_least_accurate_team
     results = @stat_tracker.game_teams_manager.game_teams_results_by_season('20122013')
     teams_shots_to_goals_start = @stat_tracker.game_teams_manager.start_shots_and_goals_per_team(results)
-    total_shot_goals_record = @stat_tracker.game_teams_manager.add_shots_and_goals(results, teams_shots_to_goals_start)
+    @stat_tracker.game_teams_manager.add_shots_and_goals(results, teams_shots_to_goals_start)
     assert_equal "Sporting Kansas City", @stat_tracker.game_teams_manager.least_accurate_team('20122013')
   end
 
@@ -299,14 +299,14 @@ class GameTeamsManagerTest < Minitest::Test
   def test_team_with_most_tackles
     results = @stat_tracker.game_teams_manager.game_teams_results_by_season('20122013')
     tackles_start = @stat_tracker.game_teams_manager.start_tackles_per_team(results)
-    added_tackles = @stat_tracker.game_teams_manager.add_tackles(results, tackles_start)
+    @stat_tracker.game_teams_manager.add_tackles(results, tackles_start)
     assert_equal "FC Dallas", @stat_tracker.game_teams_manager.most_tackles('20122013')
   end
 
   def test_team_with_fewest_tackles
     results = @stat_tracker.game_teams_manager.game_teams_results_by_season('20122013')
     tackles_start = @stat_tracker.game_teams_manager.start_tackles_per_team(results)
-    added_tackles = @stat_tracker.game_teams_manager.add_tackles(results, tackles_start)
+    @stat_tracker.game_teams_manager.add_tackles(results, tackles_start)
     assert_equal "Sporting Kansas City", @stat_tracker.game_teams_manager.fewest_tackles('20122013')
   end
 

@@ -376,22 +376,22 @@ class StatTrackerTest < Minitest::Test
     }
 
    assert_equal expected, tracker.team_info("7")
- end
+  end
 
- def test_it_can_find_best_season
+  def test_it_can_find_best_season
    assert_equal "20122013", @stat_tracker.best_season("6")
- end
+  end
 
- def test_it_can_find_worst_season
+  def test_it_can_find_worst_season
    assert_equal "20122013", @stat_tracker.worst_season("6")
- end
+  end
 
- def test_it_can_find_average_win_percentage
+  def test_it_can_find_average_win_percentage
    assert_equal 1.0, @stat_tracker.average_win_percentage("6")
    assert_equal 0.43, @stat_tracker.average_win_percentage('16')
- end
+  end
 
- def test_it_can_find_most_and_fewest_goals_scored
+  def test_it_can_find_most_and_fewest_goals_scored
    game_path = './fixture/game_blank.csv'
    team_path = './fixture/team_blank.csv'
    game_teams_path = './fixture/game_teams_blank.csv'
@@ -418,13 +418,13 @@ class StatTrackerTest < Minitest::Test
    assert_equal 2, tracker.most_goals_scored('987')
    assert_equal 1, tracker.fewest_goals_scored('123')
    assert_equal 2, tracker.fewest_goals_scored('987')
- end
+  end
 
- def test_it_can_find_favorite_opponent
+  def test_it_can_find_favorite_opponent
    assert_equal 'LA Galaxy', @stat_tracker.favorite_opponent('16')
- end
+  end
 
- def test_it_can_find_rival
+  def test_it_can_find_rival
    assert_equal 'FC Dallas', @stat_tracker.rival('3')
- end
+  end
 end
