@@ -5,7 +5,7 @@ module AssistantToTheGameTeamsManager
       team_result.game_id.start_with?(season[0..3])
     end
   end
-  
+
   def add_wins_losses(gt_results, coach_record_start)
     gt_results.each do |team_result|
       if team_result.result == "WIN"
@@ -109,10 +109,6 @@ module AssistantToTheGameTeamsManager
       win_percentage[team_id] = total += (opponent_wins.to_f / game_teams.length).round(2)
     end
     win_percentage
-  end
-
-  def find_team_name(team_id)
-    @tracker.team_info(team_id)['team_name']
   end
 
 #-------------GameStatisticsHelpers

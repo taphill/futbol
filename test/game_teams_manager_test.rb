@@ -578,10 +578,6 @@ class GameTeamsManagerTest < Minitest::Test
     assert_equal ({'456'=>1.0, '987'=>1.0}), tracker.game_teams_manager.find_opponent_win_percentage('123')
   end
 
-  def test_it_finds_team_name
-    assert_equal 'Houston Dynamo', @stat_tracker.game_teams_manager.find_team_name('3')
-  end
-
   def test_it_finds_favorite_opponent
     assert_equal 'Houston Dynamo', @stat_tracker.game_teams_manager.favorite_opponent('6')
   end

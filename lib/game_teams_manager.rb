@@ -131,13 +131,13 @@ class GameTeamsManager
     opponent = find_opponent_win_percentage(team_id).min_by do |_team_id, percentage|
       percentage
     end.first
-    find_team_name(opponent)
+    find_team_by_team_id(opponent)
   end
 
   def rival(team_id)
     opponent = find_opponent_win_percentage(team_id).max_by do |_team_id, percentage|
       percentage
     end.first
-    find_team_name(opponent)
+    find_team_by_team_id(opponent)
   end
 end
