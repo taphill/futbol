@@ -81,18 +81,15 @@ class GameTeamsManager
   end
   #-------------GameStatistics
   def percentage_home_wins
-    average = all_home_game_wins.count / all_home_games.count.to_f
-    average.round(2)
+    (all_home_game_wins.count / all_home_games.count.to_f).round(2)
   end
 
   def percentage_visitor_wins
-    average = all_away_game_wins.count / all_away_games.count.to_f
-    average.round(2)
+    (all_away_game_wins.count / all_away_games.count.to_f).round(2)
   end
 
   def percentage_ties
-    average = all_tie_games.count / all_games.count.to_f
-    average.round(2)
+    (all_tie_games.count / all_games.count.to_f).round(2)
   end
   #-------------TeamStats
   def best_season(team_id)
